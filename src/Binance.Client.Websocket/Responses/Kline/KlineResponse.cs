@@ -8,6 +8,7 @@ namespace Binance.Client.Websocket.Responses.Kline
     {
         internal static bool TryHandle(JObject response, ISubject<KlineResponse> subject)
         {
+            System.Console.Write("kline here");
             var stream = response?["stream"]?.Value<string>();
             if (stream == null)
             {

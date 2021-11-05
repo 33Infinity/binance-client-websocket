@@ -161,14 +161,8 @@ namespace Binance.Client.Websocket.Client
 
             return
 
-                TradeResponse.TryHandle(response, Streams.TradesSubject) ||
-                AggregatedTradeResponse.TryHandle(response, Streams.TradeBinSubject) ||
-                OrderBookPartialResponse.TryHandle(response, Streams.OrderBookPartialSubject) || 
-                OrderBookDiffResponse.TryHandle(response, Streams.OrderBookDiffSubject) ||
-                FundingResponse.TryHandle(response, Streams.FundingSubject) ||
-                BookTickerResponse.TryHandle(response, Streams.BookTickerSubject) ||
-                KlineResponse.TryHandle(response, Streams.KlineSubject) ||
-                MiniTickerResponse.TryHandle(response, Streams.MiniTickerSubject);
+
+                KlineResponse.TryHandle(response, Streams.KlineSubject);
         }
     }
 }
