@@ -31,7 +31,7 @@ namespace Binance.Client.Websocket.Client
 
         internal readonly Subject<BookTickerResponse> BookTickerSubject = new Subject<BookTickerResponse>();
         
-        internal readonly Subject<KlineResponse> KlineSubject = new Subject<KlineResponse>();
+        internal readonly Subject<Kline> KlineSubject = new Subject<Kline>();
         
         internal readonly Subject<MiniTickerResponse> MiniTickerSubject = new Subject<MiniTickerResponse>();
         
@@ -75,7 +75,7 @@ namespace Binance.Client.Websocket.Client
         /// <summary>
         /// The Kline/Candlestick subscription, provide symbol and chart intervals
         /// </summary>
-        public IObservable<KlineResponse> KlineStream => KlineSubject.AsObservable();
+        public IObservable<Kline> KlineStream => KlineSubject.AsObservable();
 
         /// <summary>
         /// Mini-ticker specified symbol statistics for the previous 24hrs

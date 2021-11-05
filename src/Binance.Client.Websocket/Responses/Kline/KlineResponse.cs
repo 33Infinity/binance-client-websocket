@@ -6,9 +6,8 @@ namespace Binance.Client.Websocket.Responses.Kline
 {
     public class KlineResponse : ResponseBase<Kline>
     {
-        internal static bool TryHandle(JObject response, ISubject<KlineResponse> subject)
+        internal static bool TryHandle(JObject response, ISubject<Kline> subject)
         {
-            System.Console.Write("kline here");
             var stream = response?["stream"]?.Value<string>();
             if (stream == null)
             {
@@ -19,8 +18,7 @@ namespace Binance.Client.Websocket.Responses.Kline
             {
                 return false;
             }
-
-            var parsed = response.ToObject<KlineResponse>(BinanceJsonSerializer.Serializer);
+            var parsed = BinanceJsonSerializer.Deserialize<Kline>(response["data"]["k"].ToString());
             subject.OnNext(parsed);
 
             return true;
