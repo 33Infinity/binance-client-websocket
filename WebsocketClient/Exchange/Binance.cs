@@ -1,4 +1,5 @@
-﻿using Binance.Client.Websocket.Client;
+﻿using System.Data.SqlClient;
+using Binance.Client.Websocket.Client;
 using Binance.Client.Websocket.Communicator;
 using Binance.Client.Websocket.Subscriptions;
 using Binance.Client.Websocket.Websockets;
@@ -6,8 +7,12 @@ using Binance.Client.Websocket.Websockets;
 
 namespace WebsocketClient.Exchange {
     public class Binance : Exchange {
+
         private static readonly ManualResetEvent ExitEvent = new ManualResetEvent(false);
         private static readonly Uri ApiWebsocketUrl = new Uri("wss://stream.binance.us:9443");
+
+        public override string Name => "Binance";
+
         public override void SubscribeToStreams() {
             var url = ApiWebsocketUrl;
             using (var communicator = new BinanceWebsocketCommunicator(url)) {
@@ -32,7 +37,7 @@ namespace WebsocketClient.Exchange {
             }
         }
 
-        private static void SubscribeToStreams(BinanceWebsocketClient client, IBinanceCommunicator comm) {
+        private void SubscribeToStreams(BinanceWebsocketClient client, IBinanceCommunicator comm) {
             client.Streams.KlineStream.Subscribe(response => {
                 var ob = response;
                 //Console.Write($"Kline [{ob.Symbol}] " +
@@ -54,7 +59,11 @@ namespace WebsocketClient.Exchange {
                 //                $"Ignore: {ob.Ignore} ");
                 Console.WriteLine(ob.StartTime);
                 Console.WriteLine(ob.CloseTime);
+                var candlestickBO = BusinessObjects.CandlestickBO.New(Name, UnixToUtc(response.StartTime), UnixToUtc(response.CloseTime), response.OpenPrice, response.ClosePrice, response.LowPrice, response.HighPrice, response.NumberTrades);
+                candlestickBO.Save();
             });
         }
+
+        private DateTime UnixToUtc(double aUnixTimeStamp) => DateTimeOffset.FromUnixTimeSeconds((long)aUnixTimeStamp).UtcDateTime;
     }
 }
