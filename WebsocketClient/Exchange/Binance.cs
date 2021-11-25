@@ -10,6 +10,13 @@ namespace WebsocketClient.Exchange {
 
         private static readonly ManualResetEvent ExitEvent = new ManualResetEvent(false);
         private static readonly Uri ApiWebsocketUrl = new Uri("wss://stream.binance.us:9443");
+        private const string INTERVAL = "5m";
+        private List<string> PAIRS = new() { 
+            //{"btcusd"},
+            {"aaveusd"},
+            //{"adausd"},
+            //{"algousd"},
+        };
 
         public override string Name => "Binance";
 
@@ -24,10 +31,12 @@ namespace WebsocketClient.Exchange {
 
 
                 using (var client = new BinanceWebsocketClient(communicator)) {
-                    SubscribeToStreams(client, communicator);
-
+                    SubscribeToStreams(client);
+                    var subscriptions = new List<KlineSubscription>();
+                    foreach (var pair in PAIRS)
+                        subscriptions.Add(new KlineSubscription(pair, INTERVAL));
                     client.SetSubscriptions(
-                        new KlineSubscription("btcusd", "5m")
+                        subscriptions.ToArray()
                     );
 
 
@@ -37,33 +46,13 @@ namespace WebsocketClient.Exchange {
             }
         }
 
-        private void SubscribeToStreams(BinanceWebsocketClient client, IBinanceCommunicator comm) {
+        private void SubscribeToStreams(BinanceWebsocketClient client) {
             client.Streams.KlineStream.Subscribe(response => {
-                var ob = response;
-                //Console.Write($"Kline [{ob.Symbol}] " +
-                //                $"Kline start time: {ob.StartTime} " +
-                //                $"Kline close time: {ob.CloseTime} " +
-                //                $"Interval: {ob.Interval} " +
-                //                $"First trade ID: {ob.FirstTradeId} " +
-                //                $"Last trade ID: {ob.LastTradeId} " +
-                //                $"Open price: {ob.OpenPrice} " +
-                //                $"Close price: {ob.ClosePrice} " +
-                //                $"High price: {ob.HighPrice} " +
-                //                $"Low price: {ob.LowPrice} " +
-                //                $"Base asset volume: {ob.BaseAssetVolume} " +
-                //                $"Number of trades: {ob.NumberTrades} " +
-                //                $"Is this kline closed?: {ob.IsClose} " +
-                //                $"Quote asset volume: {ob.QuoteAssetVolume} " +
-                //                $"Taker buy base: {ob.TakerBuyBaseAssetVolume} " +
-                //                $"Taker buy quote: {ob.TakerBuyQuoteAssetVolume} " +
-                //                $"Ignore: {ob.Ignore} ");
-                Console.WriteLine(ob.StartTime);
-                Console.WriteLine(ob.CloseTime);
                 var candlestickBO = BusinessObjects.CandlestickBO.New(Name, UnixToUtc(response.StartTime), UnixToUtc(response.CloseTime), response.OpenPrice, response.ClosePrice, response.LowPrice, response.HighPrice, response.NumberTrades);
                 candlestickBO.Save();
             });
         }
 
-        private DateTime UnixToUtc(double aUnixTimeStamp) => DateTimeOffset.FromUnixTimeSeconds((long)aUnixTimeStamp).UtcDateTime;
+        private DateTime UnixToUtc(double aUnixTimeStamp) => DateTimeOffset.FromUnixTimeMilliseconds((long)aUnixTimeStamp).UtcDateTime;
     }
 }

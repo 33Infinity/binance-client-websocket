@@ -9,11 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Binance.Client.Websocket", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebsocketClient", "WebsocketClient\WebsocketClient.csproj", "{72CE4839-342B-42C5-BBF0-68ACC7990E88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessObjects", "..\TraderBot\DataLayer\BusinessObjects\BusinessObjects.csproj", "{AB4097A2-5747-4E1C-A9E1-A8A57B9EA810}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessObjects", "..\TraderBot\DataLayer\BusinessObjects\BusinessObjects.csproj", "{AB4097A2-5747-4E1C-A9E1-A8A57B9EA810}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessObjects", "..\TraderBot\DataLayer\DataAccessObjects\DataAccessObjects.csproj", "{A0E600D1-3D64-46F7-8D74-92EE679B3F0B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessObjects", "..\TraderBot\DataLayer\DataAccessObjects\DataAccessObjects.csproj", "{A0E600D1-3D64-46F7-8D74-92EE679B3F0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTransfterObjects", "..\TraderBot\DataLayer\DataTransfterObjects\DataTransfterObjects.csproj", "{80478CB1-23FA-4267-8F2A-4AF7F084C897}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataTransfterObjects", "..\TraderBot\DataLayer\DataTransfterObjects\DataTransfterObjects.csproj", "{80478CB1-23FA-4267-8F2A-4AF7F084C897}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities", "..\TraderBot\Utilities\Utilities\Utilities.csproj", "{3BE6EDE5-485D-46B6-8F7D-BD997B6B3482}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -85,6 +87,18 @@ Global
 		{80478CB1-23FA-4267-8F2A-4AF7F084C897}.Release|iPhone.Build.0 = Release|Any CPU
 		{80478CB1-23FA-4267-8F2A-4AF7F084C897}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{80478CB1-23FA-4267-8F2A-4AF7F084C897}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{3BE6EDE5-485D-46B6-8F7D-BD997B6B3482}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BE6EDE5-485D-46B6-8F7D-BD997B6B3482}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BE6EDE5-485D-46B6-8F7D-BD997B6B3482}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{3BE6EDE5-485D-46B6-8F7D-BD997B6B3482}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{3BE6EDE5-485D-46B6-8F7D-BD997B6B3482}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{3BE6EDE5-485D-46B6-8F7D-BD997B6B3482}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{3BE6EDE5-485D-46B6-8F7D-BD997B6B3482}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BE6EDE5-485D-46B6-8F7D-BD997B6B3482}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BE6EDE5-485D-46B6-8F7D-BD997B6B3482}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{3BE6EDE5-485D-46B6-8F7D-BD997B6B3482}.Release|iPhone.Build.0 = Release|Any CPU
+		{3BE6EDE5-485D-46B6-8F7D-BD997B6B3482}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{3BE6EDE5-485D-46B6-8F7D-BD997B6B3482}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
