@@ -1,8 +1,7 @@
-﻿using System.Data.SqlClient;
-using Binance.Client.Websocket.Client;
-using Binance.Client.Websocket.Communicator;
+﻿using Binance.Client.Websocket.Client;
 using Binance.Client.Websocket.Subscriptions;
 using Binance.Client.Websocket.Websockets;
+using BusinessObjects;
 
 
 namespace WebsocketClient.Exchange {
@@ -10,13 +9,8 @@ namespace WebsocketClient.Exchange {
 
         private static readonly ManualResetEvent ExitEvent = new ManualResetEvent(false);
         private static readonly Uri ApiWebsocketUrl = new Uri("wss://stream.binance.us:9443");
-        private const string INTERVAL = "5m";
-        private List<string> PAIRS = new() { 
-            //{"btcusd"},
-            {"aaveusd"},
-            //{"adausd"},
-            //{"algousd"},
-        };
+        private const string INTERVAL = "1m";
+        private const string EXCHANGE = "Binance";
 
         public override string Name => "Binance";
 
@@ -33,8 +27,9 @@ namespace WebsocketClient.Exchange {
                 using (var client = new BinanceWebsocketClient(communicator)) {
                     SubscribeToStreams(client);
                     var subscriptions = new List<KlineSubscription>();
-                    foreach (var pair in PAIRS)
-                        subscriptions.Add(new KlineSubscription(pair, INTERVAL));
+                    var tradingPairBOs = TradingPairBO.GetByExchange(EXCHANGE);
+                    foreach (var pair in tradingPairBOs)
+                        subscriptions.Add(new KlineSubscription(pair.Symbol, INTERVAL));
                     client.SetSubscriptions(
                         subscriptions.ToArray()
                     );
@@ -48,7 +43,7 @@ namespace WebsocketClient.Exchange {
 
         private void SubscribeToStreams(BinanceWebsocketClient client) {
             client.Streams.KlineStream.Subscribe(response => {
-                var candlestickBO = BusinessObjects.CandlestickBO.New(Name, UnixToUtc(response.StartTime), UnixToUtc(response.CloseTime), response.OpenPrice, response.ClosePrice, response.LowPrice, response.HighPrice, response.NumberTrades);
+                var candlestickBO = CandlestickBO.New(Name, response.Symbol, UnixToUtc(response.StartTime), UnixToUtc(response.CloseTime), response.OpenPrice, response.ClosePrice, response.LowPrice, response.HighPrice, response.NumberTrades);
                 candlestickBO.Save();
             });
         }
